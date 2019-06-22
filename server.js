@@ -1,29 +1,25 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var path = require('path')
-var app = express();
+var express = require("express");
+var methodOverride = require("method-override");
+var bodyParser = require("body-parser");
+var exphbs = require("express-handlebars");
+var router = require("./controllers/burger_controller.js");
+var path = require("path");
 
+var app = express();
 var PORT = process.env.PORT || 3306;
 
-//Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static(process.cwd() + '/public'));
+app.use(methodOverride("_method"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.text());
+app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
-app.use(methodOverride('_method'))
-var exphbs = require('express-handlebars');
-app.engine('hbs', exphbs({
-    defaultLayout: 'main'
-}));
+app.use(express.static(__dirname + "/public"));
+app.use("/", router);
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
-var routes = require('../burger/controllers/burger_controller');
-app.use('/', routes);
-
-
-app.listen(PORT);
+app.listen(PORT, function () {
+    console.log("Listening on PORT " + PORT);
+});
