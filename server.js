@@ -4,7 +4,7 @@ var methodOverride = require('method-override');
 var path = require('path')
 var app = express();
 
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3306;
 
 //Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static(process.cwd() + '/public'));
@@ -22,7 +22,7 @@ app.engine('hbs', exphbs({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-var routes = require('./controllers/burgers_controllers.js');
+var routes = require('../burger/controllers/burger_controller');
 app.use('/', routes);
 
 
