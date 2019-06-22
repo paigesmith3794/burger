@@ -17,7 +17,7 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "public"));
 app.use("/", router);
 
 app.listen(PORT, function () {
